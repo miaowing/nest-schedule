@@ -53,8 +53,9 @@ export class ScheduleService {
   }
   
   @Schedule({cron: '0 0 4 * *'})
-  clear() {
+  async clear() {
     console.log('syncing data ...');
+    await doClear();
   }
   
   @Schedule({timeout: 5000})
