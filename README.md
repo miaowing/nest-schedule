@@ -43,7 +43,11 @@ import { Schedule } from 'nest-schedule';
 
 @Injectable()
 export class ScheduleService {  
-  @Schedule({cron: '0 0 2 * *', startTime: new Date(), endTime: new Date(new Date().getTime() + 24 * 60 * 60 * 1000)})
+  @Schedule({
+    cron: '0 0 2 * *',
+    startTime: new Date(), 
+    endTime: new Date(new Date().getTime() + 24 * 60 * 60 * 1000)
+  })
   syncData() {
     console.log('syncing data ...');
   }
