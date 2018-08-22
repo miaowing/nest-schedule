@@ -39,16 +39,20 @@ $ npm i --save nest-schedule
 
 ```typescript
 import { Injectable } from '@nestjs/common';
-import { Schedule } from 'nest-schedule';
+import { Schedule, NestSchedule } from 'nest-schedule';
 
 @Injectable()
-export class ScheduleService {  
+export class ScheduleService extends NestSchedule {  
+  constructor() {
+    super();
+  }
+  
   @Schedule({
     cron: '0 0 2 * *',
     startTime: new Date(), 
     endTime: new Date(new Date().getTime() + 24 * 60 * 60 * 1000)
   })
-  syncData() {
+  async syncData() {
     console.log('syncing data ...');
   }
   
@@ -67,7 +71,7 @@ export class ScheduleService {
   intervalJob() {
     console.log('interval job');
     
-    // if you want to cancel the schedule job, you should return true;
+    // if you want to cancel the job, you should return true;
     return true;
   }
 }
