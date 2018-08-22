@@ -1,3 +1,4 @@
+import "reflect-metadata";
 import { NEST_SCHEDULE_JOB_KEY } from "./constants";
 import * as schedule from "node-schedule";
 
