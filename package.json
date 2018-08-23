@@ -1,6 +1,6 @@
 {
   "name": "nest-schedule",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "Nest - modern, fast, powerful node.js web framework (@schedule)",
   "author": "Miaowing <i@zfeng.net>",
   "license": "MIT",

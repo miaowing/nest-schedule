@@ -39,7 +39,7 @@ $ npm i --save nest-schedule
 
 ```typescript
 import { Injectable } from '@nestjs/common';
-import { Schedule, NestSchedule } from 'nest-schedule';
+import { Cron, Interval, Timeout, NestSchedule } from 'nest-schedule';
 
 @Injectable()
 export class ScheduleService extends NestSchedule {  
@@ -47,32 +47,60 @@ export class ScheduleService extends NestSchedule {
     super();
   }
   
-  @Schedule({
-    cron: '0 0 2 * *',
+  @Cron('0 0 2 * *', {
     startTime: new Date(), 
-    endTime: new Date(new Date().getTime() + 24 * 60 * 60 * 1000)
+    endTime: new Date(new Date().getTime() + 24 * 60 * 60 * 1000),
+    tz: 'Asia/Shanghai',
   })
   async syncData() {
     console.log('syncing data ...');
   }
   
-  @Schedule({cron: '0 0 4 * *'})
+  @Cron('0 0 4 * *')
   async clear() {
     console.log('clear data ...');
     await doClear();
   }
   
-  @Schedule({timeout: 5000})
+  @Timeout(5000)
   onceJob() {
     console.log('once job');
   }
   
-  @Schedule({interval: 2000})
+  @Interval(2000)
   intervalJob() {
     console.log('interval job');
     
     // if you want to cancel the job, you should return true;
     return true;
+  }
+}
+```
+
+### Distributed Support
+
+```typescript
+import { Injectable } from '@nestjs/common';
+import { Cron, NestDistributedSchedule } from 'nest-schedule';
+
+@Injectable()
+export class ScheduleService extends NestDistributedSchedule {  
+  constructor() {
+    super();
+  }
+  
+  async tryLock(method: string) {
+    // If try lock fail, you should throw an error.
+    throw new Error('try lock fail');
+    
+    return () => {
+      // Release here.
+    }
+  }
+  
+  @Cron('0 0 4 * *')
+  async clear() {
+    console.log('clear data ...');
   }
 }
 ```
