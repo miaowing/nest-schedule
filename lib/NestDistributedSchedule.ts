@@ -23,7 +23,7 @@ export abstract class NestDistributedSchedule {
     if (this.jobs) {
       this.jobs.forEach(async job => {
         if (job.cron) {
-          job = schedule.scheduleJob({
+          const _job = schedule.scheduleJob({
             startTime: job.startTime,
             endTime: job.endTime,
             rule: job.cron
@@ -31,8 +31,8 @@ export abstract class NestDistributedSchedule {
             try {
               const release = await this.do(this.tryLock(job.key));
               const result = await this.do(this[job.key]());
-              if (result && job) {
-                job.cancel();
+              if (result && _job) {
+                _job.cancel();
               }
               typeof release === "function" ? release() : void 0;
             } catch (e) {
