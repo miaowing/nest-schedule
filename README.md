@@ -38,12 +38,33 @@ $ npm i --save nest-schedule
 ## Quick Start
 
 ```typescript
-import { Injectable } from '@nestjs/common';
-import { Cron, Interval, Timeout, NestSchedule } from 'nest-schedule';
+import { Injectable, LoggerService } from '@nestjs/common';
+import { Cron, Interval, Timeout, NestSchedule, defaults } from 'nest-schedule';
+
+defaults.enable = true;
+defaults.logger = new NestLogger();
+defaults.maxRetry = -1;
+defaults.retryInterval = 5000;
+
+export class NestLogger implements LoggerService {
+    log(message: string): any {
+        console.log(message);
+    }
+
+    error(message: string, trace: string): any {
+        console.error(message, trace);
+    }
+
+    warn(message: string): any {
+        console.warn(message);
+    }
+}
 
 @Injectable()
 export class ScheduleService extends NestSchedule {  
-  constructor() {
+  constructor(
+    
+  ) {
     super();
   }
   
@@ -104,6 +125,40 @@ export class ScheduleService extends NestDistributedSchedule {
   }
 }
 ```
+
+## API
+
+### Common options or defaults
+
+| field | type | required | description |
+| --- | --- | --- | --- |
+| enable | boolean | false | default is true, when false, the job will not execute |
+| maxRetry | number | false |  the max retry count, default is -1 not retry |
+| retryInterval | number | false | the retry interval, default is 5000 |
+| logger | LoggerService | false | default is false, only available at defaults |
+
+### Cron(expression: string, options: CronOptions)
+
+| field | type | required | description |
+| --- | --- | --- | --- |
+| expression | string | true | the cron expression |
+| options.startTime | Date | false | the job's start time |
+| options.endTime | Date | false | the job's end time |
+| options.tz | string | false | the time zone |
+
+### Interval(time: number, options: BaseOptions)
+
+| field | type | required | description |
+| --- | --- | --- | --- |
+| time | number | true | millisecond |
+| options | object | false | same as common options |
+
+### Timeout(time: number, options: BaseOptions)
+
+| field | type | required | description |
+| --- | --- | --- | --- |
+| time | number | true | millisecond |
+| options | object | false | same as common options |
 
 ## Stay in touch
 
