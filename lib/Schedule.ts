@@ -4,6 +4,7 @@ import { NEST_SCHEDULE_JOB_KEY } from "./constants";
 export interface BaseOptions {
     maxRetry?: number;
     retryInterval?: number;
+    enable?: boolean;
 }
 
 export interface CronOptions extends BaseOptions {
