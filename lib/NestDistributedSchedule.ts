@@ -25,7 +25,7 @@ export abstract class NestDistributedSchedule {
                     }, async () => {
                         const configs = Object.assign({}, defaults, job);
                         const executor = new JobExecutor(configs, configs.logger);
-                        const result = await executor.execute(job.key, () => this[job.key](), this.tryLock);
+                        const result = await executor.execute(job.key, () => this[job.key](), this.tryLock.bind(this));
                         if (result && _job) {
                             _job.cancel();
                         }
@@ -35,7 +35,7 @@ export abstract class NestDistributedSchedule {
                     this.timers[job.key] = setInterval(async () => {
                         const configs = Object.assign({}, defaults, job);
                         const executor = new JobExecutor(configs, configs.logger);
-                        const result = await executor.execute(job.key, () => this[job.key](), this.tryLock);
+                        const result = await executor.execute(job.key, () => this[job.key](), this.tryLock.bind(this));
                         if (result && this.timers[job.key]) {
                             clearInterval(this.timers[job.key]);
                             delete this.timers[job.key];
@@ -46,7 +46,7 @@ export abstract class NestDistributedSchedule {
                     this.timers[job.key] = setTimeout(async () => {
                         const configs = Object.assign({}, defaults, job);
                         const executor = new JobExecutor(configs, configs.logger);
-                        const result = await executor.execute(job.key, () => this[job.key](), this.tryLock);
+                        const result = await executor.execute(job.key, () => this[job.key](), this.tryLock.bind(this));
                         if (result && this.timers[job.key]) {
                             clearTimeout(this.timers[job.key]);
                             delete this.timers[job.key];
