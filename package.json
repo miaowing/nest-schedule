@@ -1,6 +1,6 @@
 {
   "name": "nest-schedule",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "description": "Nest - modern, fast, powerful node.js web framework (@schedule)",
   "author": "Miaowing <i@zfeng.net>",
   "license": "MIT",
@@ -12,8 +12,7 @@
     "test": "ts-node -r tsconfig-paths/register test/TestClient.ts"
   },
   "peerDependencies": {
-    "@nestjs/common": "^5.0.0",
-    "consul": "^0.30.0"
+    "@nestjs/common": "^5.0.0"
   },
   "devDependencies": {
     "@nestjs/common": "^5.0.0",
