@@ -17,13 +17,13 @@ export abstract class NestDistributedSchedule {
     private init() {
         if (this.jobs) {
             this.jobs.forEach(async job => {
-                if (job.cron) {
+                const configs = Object.assign({}, defaults, job);
+                if (job.cron && configs.enable) {
                     const _job = schedule.scheduleJob({
                         startTime: job.startTime,
                         endTime: job.endTime,
                         rule: job.cron
                     }, async () => {
-                        const configs = Object.assign({}, defaults, job);
                         const executor = new JobExecutor(configs, configs.logger);
                         const result = await executor.execute(job.key, () => this[job.key](), this.tryLock.bind(this));
                         if (result && _job) {
@@ -31,9 +31,8 @@ export abstract class NestDistributedSchedule {
                         }
                     });
                 }
-                if (job.interval) {
+                if (job.interval && configs.enable) {
                     this.timers[job.key] = setInterval(async () => {
-                        const configs = Object.assign({}, defaults, job);
                         const executor = new JobExecutor(configs, configs.logger);
                         const result = await executor.execute(job.key, () => this[job.key](), this.tryLock.bind(this));
                         if (result && this.timers[job.key]) {
@@ -42,9 +41,8 @@ export abstract class NestDistributedSchedule {
                         }
                     }, job.interval);
                 }
-                if (job.timeout) {
+                if (job.timeout && configs.enable) {
                     this.timers[job.key] = setTimeout(async () => {
-                        const configs = Object.assign({}, defaults, job);
                         const executor = new JobExecutor(configs, configs.logger);
                         const result = await executor.execute(job.key, () => this[job.key](), this.tryLock.bind(this));
                         if (result && this.timers[job.key]) {
