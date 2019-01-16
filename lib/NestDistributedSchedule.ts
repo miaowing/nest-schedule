@@ -22,6 +22,7 @@ export abstract class NestDistributedSchedule {
                     const _job = schedule.scheduleJob({
                         startTime: job.startTime,
                         endTime: job.endTime,
+                        tz: job.tz,
                         rule: job.cron
                     }, async () => {
                         const executor = new JobExecutor(configs, configs.logger);
