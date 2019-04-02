@@ -1,6 +1,6 @@
 {
-  "name": "@nestcloud/schedule",
-  "version": "0.1.1",
+  "name": "nest-schedule",
+  "version": "0.4.5",
   "description": "Nest - modern, fast, powerful node.js web framework (@schedule)",
   "author": "Miaowing <i@zfeng.net>",
   "license": "MIT",
@@ -28,12 +28,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/nest-cloud/schedule.git"
+    "url": "git+https://github.com/miaowing/schedule.git"
   },
   "bugs": {
-    "url": "https://github.com/nest-cloud/schedule/issues"
+    "url": "https://github.com/miaowing/schedule/issues"
   },
-  "homepage": "https://github.com/nest-cloud/schedule#readme",
+  "homepage": "https://github.com/miaowing/schedule#readme",
   "lint-staged": {
     "*.ts": [
       "prettier --write",

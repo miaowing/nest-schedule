@@ -9,14 +9,14 @@ This is a [Nest](https://github.com/nestjs/nest) module for using decorator sche
 ## Installation
 
 ```bash
-$ npm i --save @nestcloud/schedule
+$ npm i --save nest-schedule
 ```
 
 ## Quick Start
 
 ```typescript
 import { Injectable, LoggerService } from '@nestjs/common';
-import { Cron, Interval, Timeout, NestSchedule, defaults } from '@nestcloud/schedule';
+import { Cron, Interval, Timeout, NestSchedule, defaults } from 'nest-schedule';
 
 defaults.enable = true;
 defaults.logger = new NestLogger();
@@ -79,7 +79,7 @@ export class ScheduleService extends NestSchedule {
 
 ```typescript
 import { Injectable } from '@nestjs/common';
-import { Cron, NestDistributedSchedule } from '@nestcloud/schedule';
+import { Cron, NestDistributedSchedule } from 'nest-schedule';
 
 @Injectable()
 export class ScheduleService extends NestDistributedSchedule {  
@@ -139,8 +139,8 @@ export class ScheduleService extends NestDistributedSchedule {
 
 ## Stay in touch
 
-- Author - [NestCloud](https://github.com/nest-cloud)
+- Author - [miaowing](https://github.com/miaowing)
 
 ## License
 
-  NestCloud is [MIT licensed](LICENSE).
+  NestSchedule is [MIT licensed](LICENSE).
