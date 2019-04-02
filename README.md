@@ -2,21 +2,17 @@
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo_text.svg" width="320" alt="Nest Logo" /></a>
 </p>
 
-<style>
-table {
-  width: 100%;
-}
-</style>
-
 ## Description
 
 This is a [Nest](https://github.com/nestjs/nest) module for using decorator schedule a job.
+
 
 ## Installation
 
 ```bash
 $ npm i --save nest-schedule
 ```
+
 
 ## Usage
 
@@ -25,13 +21,7 @@ import { Injectable, LoggerService } from '@nestjs/common';
 import { Cron, Interval, Timeout, NestSchedule } from 'nest-schedule';
 
 @Injectable()
-export class ScheduleService extends NestSchedule {  
-  constructor(
-    
-  ) {
-    super();
-  }
-  
+export class ScheduleService extends NestSchedule {    
   @Cron('0 0 2 * *', {
     startTime: new Date(), 
     endTime: new Date(new Date().getTime() + 24 * 60 * 60 * 1000),
@@ -64,10 +54,6 @@ import { Cron, NestDistributedSchedule } from 'nest-schedule';
 
 @Injectable()
 export class ScheduleService extends NestDistributedSchedule {  
-  constructor() {
-    super();
-  }
-  
   async tryLock(method: string) {
     // If try lock fail, you should throw an error.
     throw new Error('try lock fail');
@@ -110,9 +96,10 @@ defaults.maxRetry = -1;
 defaults.retryInterval = 5000;
 ```
 
+
 ## API
 
-### Common options or defaults
+### BaseOptions
 
 | field | type | required | description |
 | --- | --- | --- | --- |
@@ -143,6 +130,7 @@ defaults.retryInterval = 5000;
 | --- | --- | --- | --- |
 | time | number | true | millisecond |
 | options | object | false | same as common options |
+
 
 ## Stay in touch
 
