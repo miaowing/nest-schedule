@@ -2,6 +2,12 @@
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo_text.svg" width="320" alt="Nest Logo" /></a>
 </p>
 
+<style>
+table {
+  width: 100%;
+}
+</style>
+
 ## Description
 
 This is a [Nest](https://github.com/nestjs/nest) module for using decorator schedule a job.
@@ -12,30 +18,11 @@ This is a [Nest](https://github.com/nestjs/nest) module for using decorator sche
 $ npm i --save nest-schedule
 ```
 
-## Quick Start
+## Usage
 
 ```typescript
 import { Injectable, LoggerService } from '@nestjs/common';
-import { Cron, Interval, Timeout, NestSchedule, defaults } from 'nest-schedule';
-
-defaults.enable = true;
-defaults.logger = new NestLogger();
-defaults.maxRetry = -1;
-defaults.retryInterval = 5000;
-
-export class NestLogger implements LoggerService {
-    log(message: string): any {
-        console.log(message);
-    }
-
-    error(message: string, trace: string): any {
-        console.error(message, trace);
-    }
-
-    warn(message: string): any {
-        console.warn(message);
-    }
-}
+import { Cron, Interval, Timeout, NestSchedule } from 'nest-schedule';
 
 @Injectable()
 export class ScheduleService extends NestSchedule {  
@@ -50,24 +37,18 @@ export class ScheduleService extends NestSchedule {
     endTime: new Date(new Date().getTime() + 24 * 60 * 60 * 1000),
     tz: 'Asia/Shanghai',
   })
-  async syncData() {
-    console.log('syncing data ...');
-  }
-  
-  @Cron('0 0 4 * *')
-  async clear() {
-    console.log('clear data ...');
-    await doClear();
+  async cronJob() {
+    console.log('executing cron job');
   }
   
   @Timeout(5000)
   onceJob() {
-    console.log('once job');
+    console.log('executing once job');
   }
   
   @Interval(2000)
   intervalJob() {
-    console.log('interval job');
+    console.log('executing interval job');
     
     // if you want to cancel the job, you should return true;
     return true;
@@ -97,10 +78,36 @@ export class ScheduleService extends NestDistributedSchedule {
   }
   
   @Cron('0 0 4 * *')
-  async clear() {
-    console.log('clear data ...');
+  async cronJob() {
+    console.log('executing cron job');
   }
 }
+```
+
+### Global Options
+
+```typescript
+import { LoggerService } from '@nestjs/common';
+import { defaults } from 'nest-schedule';
+
+export class NestLogger implements LoggerService {
+    log(message: string): any {
+        console.log(message);
+    }
+
+    error(message: string, trace: string): any {
+        console.error(message, trace);
+    }
+
+    warn(message: string): any {
+        console.warn(message);
+    }
+}
+
+defaults.enable = true;
+defaults.logger = new NestLogger();
+defaults.maxRetry = -1;
+defaults.retryInterval = 5000;
 ```
 
 ## API
@@ -114,7 +121,7 @@ export class ScheduleService extends NestDistributedSchedule {
 | retryInterval | number | false | the retry interval, default is 5000 |
 | logger | LoggerService | false | default is false, only available at defaults |
 
-### Cron(expression: string, options: CronOptions)
+### Cron(expression: string, options?: CronOptions | BaseOptions)
 
 | field | type | required | description |
 | --- | --- | --- | --- |
@@ -123,14 +130,14 @@ export class ScheduleService extends NestDistributedSchedule {
 | options.endTime | Date | false | the job's end time |
 | options.tz | string | false | the time zone |
 
-### Interval(time: number, options: BaseOptions)
+### Interval(time: number, options?: BaseOptions)
 
 | field | type | required | description |
 | --- | --- | --- | --- |
 | time | number | true | millisecond |
 | options | object | false | same as common options |
 
-### Timeout(time: number, options: BaseOptions)
+### Timeout(time: number, options?: BaseOptions)
 
 | field | type | required | description |
 | --- | --- | --- | --- |
