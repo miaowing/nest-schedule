@@ -1,6 +1,6 @@
 {
   "name": "nest-schedule",
-  "version": "0.4.5",
+  "version": "0.4.6",
   "description": "Nest - modern, fast, powerful node.js web framework (@schedule)",
   "author": "Miaowing <i@zfeng.net>",
   "license": "MIT",
@@ -21,6 +21,7 @@
     "@types/reflect-metadata": "^0.1.0",
     "husky": "^0.14.3",
     "lint-staged": "^7.0.0",
+    "mocha": "^6.0.2",
     "prettier": "^1.11.1",
     "ts-node": "^6.0.0",
     "tsconfig-paths": "^3.3.1",
