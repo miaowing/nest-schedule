@@ -1,6 +1,6 @@
 {
   "name": "@nestcloud/schedule",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Nest - modern, fast, powerful node.js web framework (@schedule)",
   "author": "Miaowing <i@zfeng.net>",
   "license": "MIT",
@@ -12,12 +12,13 @@
     "test": "ts-node -r tsconfig-paths/register test/TestClient.ts"
   },
   "peerDependencies": {
+    "@nestjs/common": "^6.0.5"
   },
   "devDependencies": {
+    "@nestjs/common": "^6.0.5",
     "@types/lodash": "^4.14.108",
-    "@nestjs/common": "^5.0.0",
-    "@nestjs/core": "^5.0.0",
     "@types/node": "^7.0.41",
+    "@types/reflect-metadata": "^0.1.0",
     "husky": "^0.14.3",
     "lint-staged": "^7.0.0",
     "prettier": "^1.11.1",
