@@ -140,7 +140,7 @@ export class ScheduleService extends NestSchedule {
 
 ### Log
 
-It will use console as default logger. 
+The schedule uses console as default logger. 
 
 If you want to use yourself log library, please implements LoggerService interface.
 
@@ -200,7 +200,7 @@ Schedule a cron job.
 | --- | --- | --- | --- |
 | key | string | true | The unique job key |
 | cron | string | true | The cron expression |
-| callback | () => Promise<boolean> | boolean | If return true in callback function, the schedule will cancel this job immediately |
+| callback | () => Promise&lt;boolean&gt; | boolean | If return true in callback function, the schedule will cancel this job immediately |
 | config.startTime | Date | false | The start time of this job |
 | config.endTime | Date | false | The end time of this job |
 | config.enable | boolean | false | default is true, when false, the job will not execute |
@@ -215,7 +215,7 @@ Schedule a interval job.
 | --- | --- | --- | --- |
 | key | string | true | The unique job key |
 | interval | number | true | milliseconds |
-| callback | () => Promise<boolean> | boolean | If return true in callback function, the schedule will cancel this job immediately |
+| callback | () => Promise&lt;boolean&gt; | boolean | If return true in callback function, the schedule will cancel this job immediately |
 | config.enable | boolean | false | default is true, when false, the job will not execute |
 | config.maxRetry | number | false |  the max retry count, default is -1 not retry |
 | config.retryInterval | number | false | the retry interval, default is 5000 |
@@ -228,7 +228,7 @@ Schedule a timeout job.
 | --- | --- | --- | --- |
 | key | string | true | The unique job key |
 | timeout | number | true | milliseconds |
-| callback | () => Promise<boolean> | boolean | If return true in callback function, the schedule will cancel this job immediately |
+| callback | () => Promise&lt;boolean&gt; | boolean | If return true in callback function, the schedule will cancel this job immediately |
 | config.enable | boolean | false | default is true, when false, the job will not execute |
 | config.maxRetry | number | false |  the max retry count, default is -1 not retry |
 | config.retryInterval | number | false | the retry interval, default is 5000 |
