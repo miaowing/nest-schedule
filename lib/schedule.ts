@@ -19,15 +19,30 @@ export class Schedule {
     this.scheduler.cancelJob(key);
   }
 
-  public scheduleCronJob(key: string, cron: string, callback: JobCallback, config?: ICronJobConfig) {
+  public scheduleCronJob(
+    key: string,
+    cron: string,
+    callback: JobCallback,
+    config?: ICronJobConfig,
+  ) {
     this.scheduler.scheduleCronJob(key, cron, callback, config);
   }
 
-  public scheduleIntervalJob(key: string, interval: number, callback: JobCallback, config?: IJobConfig) {
+  public scheduleIntervalJob(
+    key: string,
+    interval: number,
+    callback: JobCallback,
+    config?: IJobConfig,
+  ) {
     this.scheduler.scheduleIntervalJob(key, interval, callback, config);
   }
 
-  public scheduleTimeoutJob(key: string, timeout: number, callback: JobCallback, config?: IJobConfig) {
+  public scheduleTimeoutJob(
+    key: string,
+    timeout: number,
+    callback: JobCallback,
+    config?: IJobConfig,
+  ) {
     this.scheduler.scheduleTimeoutJob(key, timeout, callback, config);
   }
 }

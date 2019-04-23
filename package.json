@@ -1,6 +1,6 @@
 {
   "name": "nest-schedule",
-  "version": "0.4.6",
+  "version": "0.5.0",
   "description": "Nest - modern, fast, powerful node.js web framework (@schedule)",
   "author": "Miaowing <i@zfeng.net>",
   "license": "MIT",
@@ -11,13 +11,20 @@
     "publish:npm": "npm publish",
     "test": "ts-node -r tsconfig-paths/register test/TestClient.ts"
   },
+  "optionalDependencies": {
+    "@nestcloud/core": "^0.2.3"
+  },
   "peerDependencies": {
-    "@nestjs/common": "^6.0.5"
+    "@nestjs/common": "^6.0.5",
+    "@nestjs/core": "^6.1.1"
   },
   "devDependencies": {
+    "@nestcloud/core": "^0.2.3",
     "@nestjs/common": "^6.0.5",
+    "@nestjs/core": "^6.1.1",
     "@types/lodash": "^4.14.108",
     "@types/node": "^7.0.41",
+    "@types/node-schedule": "^1.2.3",
     "@types/reflect-metadata": "^0.1.0",
     "husky": "^0.14.3",
     "lint-staged": "^7.0.0",

@@ -1,15 +1,8 @@
-import { LoggerService } from '@nestjs/common';
+import { IGlobalConfig } from './interfaces/global-config.interface';
 
-export interface DefaultConfig {
-    enable?: boolean;
-    logger?: LoggerService | boolean;
-    maxRetry?: number;
-    retryInterval?: number;
-}
-
-export const defaults: DefaultConfig = {
-    enable: true,
-    logger: false,
-    maxRetry: -1,
-    retryInterval: 5000,
+export const defaults: IGlobalConfig = {
+  enable: true,
+  logger: console,
+  maxRetry: -1,
+  retryInterval: 5000,
 };

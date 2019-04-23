@@ -1,0 +1,1 @@
+type Stop = boolean;
