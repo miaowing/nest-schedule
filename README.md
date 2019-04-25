@@ -30,10 +30,10 @@ export class AppModule {
 ```
 
 ```typescript
-import { Injectable, LoggerService } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { Cron, Interval, Timeout, NestSchedule } from 'nest-schedule';
 
-@Injectable()
+@Injectable() // Only support SINGLETON scope
 export class ScheduleService extends NestSchedule {    
   @Cron('0 0 2 * *', {
     startTime: new Date(), 
@@ -54,6 +54,32 @@ export class ScheduleService extends NestSchedule {
     
     // if you want to cancel the job, you should return true;
     return true;
+  }
+}
+```
+
+### Dynamic Schedule Job
+
+```typescript
+import { Injectable } from '@nestjs/common';
+import { InjectSchedule, NestSchedule, Schedule } from 'nest-schedule';
+
+@Injectable() // Only support SINGLETON scope
+export class ScheduleService {    
+  constructor(
+    @InjectSchedule() private readonly schedule: Schedule,
+  ) {
+  }
+  
+  createJob() {
+    // schedule a 2s interval job
+    this.schedule.scheduleIntervalJob('my-job', 2000, () => {
+      console.log('executing interval job');
+    });
+  }
+  
+  cancelJob() {
+    this.schedule.cancelJob('my-job');
   }
 }
 ```
@@ -142,7 +168,7 @@ export class ScheduleService extends NestSchedule {
 
 The schedule uses console as default logger. 
 
-If you want to use yourself log library, please implements LoggerService interface.
+If you want to use custom logger, please implements LoggerService interface.
 
 ```typescript
 import { Module } from '@nestjs/common';
@@ -238,7 +264,7 @@ Schedule a timeout job.
 Cancel job.
 
 
-## Decorator
+## Decorators
 
 ### Cron(expression: string, config?: ICronJobConfig): MethodDecorator
 
@@ -281,7 +307,9 @@ Inject Schedule instance
 
 ### UseLocker(locker: ILocker | Function): MethodDecorator
 
-Make your job support distribution, If you use [NestCloud](https://github.com/nest-cloud/nestcloud), the Locker will support dependency injection.
+Make your job support distribution.
+ 
+If you use [NestCloud](https://github.com/nest-cloud/nestcloud), the Locker will support dependency injection, or not use injection please.
 
 
 ## Stay in touch
@@ -290,4 +318,4 @@ Make your job support distribution, If you use [NestCloud](https://github.com/ne
 
 ## License
 
-  NestSchedule is [MIT licensed](LICENSE).
+- NestSchedule is [MIT licensed](LICENSE).
