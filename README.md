@@ -64,7 +64,7 @@ export class ScheduleService extends NestSchedule {
 import { Injectable } from '@nestjs/common';
 import { InjectSchedule, NestSchedule, Schedule } from 'nest-schedule';
 
-@Injectable() // Only support SINGLETON scope
+@Injectable()
 export class ScheduleService {    
   constructor(
     @InjectSchedule() private readonly schedule: Schedule,
