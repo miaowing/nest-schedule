@@ -292,8 +292,8 @@ Schedule a cron job.
 
 | field | type | required | description |
 | --- | --- | --- | --- |
-| key | string | false | The unique job key |
 | expression | string | true | the cron expression |
+| config.key | string | false | The unique job key |
 | config.startTime | Date | false | the job's start time |
 | config.endTime | Date | false | the job's end time |
 | config.enable | boolean | false | default is true, when false, the job will not execute |
@@ -308,8 +308,8 @@ Schedule a interval job.
 
 | field | type | required | description |
 | --- | --- | --- | --- |
-| key | string | false | The unique job key |
 | milliseconds | number | true | milliseconds |
+| config.key | string | false | The unique job key |
 | config.enable | boolean | false | default is true, when false, the job will not execute |
 | config.maxRetry | number | false |  the max retry count, default is -1 not retry |
 | config.retryInterval | number | false | the retry interval, default is 5000 |
@@ -322,8 +322,8 @@ Schedule a timeout job.
 
 | field | type | required | description |
 | --- | --- | --- | --- |
-| key | string | false | The unique job key |
 | milliseconds | number | true | milliseconds |
+| config.key | string | false | The unique job key |
 | config.enable | boolean | false | default is true, when false, the job will not execute |
 | config.maxRetry | number | false |  the max retry count, default is -1 not retry |
 | config.retryInterval | number | false | the retry interval, default is 5000 |
