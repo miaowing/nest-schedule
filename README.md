@@ -298,6 +298,8 @@ Schedule a cron job.
 | config.enable | boolean | false | default is true, when false, the job will not execute |
 | config.maxRetry | number | false |  the max retry count, default is -1 not retry |
 | config.retryInterval | number | false | the retry interval, default is 5000 |
+| config.waiting | boolean | false | the scheduler will not schedule job when this job is running, if waiting is true |
+| config.immediate | boolean | false | running job immediately |
 
 ### Interval(milliseconds: number, config?: IJobConfig): MethodDecorator
 
@@ -309,6 +311,8 @@ Schedule a interval job.
 | config.enable | boolean | false | default is true, when false, the job will not execute |
 | config.maxRetry | number | false |  the max retry count, default is -1 not retry |
 | config.retryInterval | number | false | the retry interval, default is 5000 |
+| config.waiting | boolean | false | the scheduler will not schedule job when this job is running, if waiting is true |
+| config.immediate | boolean | false | running job immediately |
 
 ### Timeout(milliseconds: number, config?: IJobConfig): MethodDecorator
 
@@ -320,6 +324,7 @@ Schedule a timeout job.
 | config.enable | boolean | false | default is true, when false, the job will not execute |
 | config.maxRetry | number | false |  the max retry count, default is -1 not retry |
 | config.retryInterval | number | false | the retry interval, default is 5000 |
+| config.immediate | boolean | false | running job immediately |
 
 ### InjectSchedule(): PropertyDecorator
 
