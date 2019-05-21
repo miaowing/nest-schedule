@@ -292,6 +292,7 @@ Schedule a cron job.
 
 | field | type | required | description |
 | --- | --- | --- | --- |
+| key | string | false | The unique job key |
 | expression | string | true | the cron expression |
 | config.startTime | Date | false | the job's start time |
 | config.endTime | Date | false | the job's end time |
@@ -307,6 +308,7 @@ Schedule a interval job.
 
 | field | type | required | description |
 | --- | --- | --- | --- |
+| key | string | false | The unique job key |
 | milliseconds | number | true | milliseconds |
 | config.enable | boolean | false | default is true, when false, the job will not execute |
 | config.maxRetry | number | false |  the max retry count, default is -1 not retry |
@@ -320,6 +322,7 @@ Schedule a timeout job.
 
 | field | type | required | description |
 | --- | --- | --- | --- |
+| key | string | false | The unique job key |
 | milliseconds | number | true | milliseconds |
 | config.enable | boolean | false | default is true, when false, the job will not execute |
 | config.maxRetry | number | false |  the max retry count, default is -1 not retry |
