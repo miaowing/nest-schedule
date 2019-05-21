@@ -1,5 +1,19 @@
+
+[travis-image]: https://api.travis-ci.org/nest-cloud/nestcloud.svg?branch=master
+[travis-url]: https://travis-ci.org/nest-cloud/nestcloud
+[linux-image]: https://img.shields.io/travis/nest-cloud/nestcloud/master.svg?label=linux
+[linux-url]: https://travis-ci.org/nest-cloud/nestcloud
+
 <p align="center">
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo_text.svg" width="320" alt="Nest Logo" /></a>
+</p>
+
+# Nest Schedule
+
+<p align="center">
+    <a href="https://www.npmjs.com/~nest-schedule" target="_blank"><img src="https://img.shields.io/npm/v/nest-schedule.svg" alt="NPM Version"/></a>
+    <a href="https://www.npmjs.com/~nest-schedule" target="_blank"><img src="https://img.shields.io/npm/l/nest-schedule.svg" alt="Package License"/></a>
+    <a href="https://www.npmjs.com/~nest-schedule" target="_blank"><img src="https://img.shields.io/npm/dm/nest-schedule.svg" alt="NPM Downloads"/></a>
 </p>
 
 ## Description
@@ -62,7 +76,7 @@ export class ScheduleService extends NestSchedule {
 
 ```typescript
 import { Injectable } from '@nestjs/common';
-import { InjectSchedule, NestSchedule, Schedule } from 'nest-schedule';
+import { InjectSchedule, Schedule } from 'nest-schedule';
 
 @Injectable()
 export class ScheduleService {    
@@ -215,6 +229,7 @@ Register schedule module.
 | config.maxRetry | number | false |  the max retry count, default is -1 not retry |
 | config.retryInterval | number | false | the retry interval, default is 5000 |
 | config.logger | LoggerService \| boolean | false | custom schedule logger, default is console |
+| config.waiting | boolean | false | the scheduler will not schedule job when this job is running, if waiting is true |
 
 ### class Schedule
 
@@ -232,6 +247,8 @@ Schedule a cron job.
 | config.enable | boolean | false | default is true, when false, the job will not execute |
 | config.maxRetry | number | false |  the max retry count, default is -1 not retry |
 | config.retryInterval | number | false | the retry interval, default is 5000 |
+| config.waiting | boolean | false | the scheduler will not schedule job when this job is running, if waiting is true |
+| config.immediate | boolean | false | running job immediately |
 
 #### scheduleIntervalJob(key: string, interval: number, callback: JobCallback, config?: IJobConfig)
 
@@ -245,6 +262,8 @@ Schedule a interval job.
 | config.enable | boolean | false | default is true, when false, the job will not execute |
 | config.maxRetry | number | false |  the max retry count, default is -1 not retry |
 | config.retryInterval | number | false | the retry interval, default is 5000 |
+| config.waiting | boolean | false | the scheduler will not schedule job when this job is running, if waiting is true |
+| config.immediate | boolean | false | running job immediately |
 
 #### scheduleTimeoutJob(key: string, timeout: number, callback: JobCallback, config?: IJobConfig)
 
@@ -258,6 +277,7 @@ Schedule a timeout job.
 | config.enable | boolean | false | default is true, when false, the job will not execute |
 | config.maxRetry | number | false |  the max retry count, default is -1 not retry |
 | config.retryInterval | number | false | the retry interval, default is 5000 |
+| config.immediate | boolean | false | running job immediately |
 
 #### cancelJob(key: string)
 

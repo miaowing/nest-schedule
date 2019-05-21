@@ -7,11 +7,20 @@ import { IJobConfig } from './interfaces/job-config.interface';
 import { IJob } from './interfaces/job.interface';
 import { Job } from 'node-schedule';
 import { IScheduleConfig } from './interfaces/schedule-config.interface';
+import { READY, RUNNING } from './constants';
+import { JobRepeatException } from './exceptions/job-repeat.exception';
 
 export class Scheduler {
   private static readonly jobs = new Map<string, IJob>();
 
   public static queueJob(job: IJob) {
+    if (this.jobs.has(job.key)) {
+      throw new JobRepeatException(
+        `The job ${
+          job.key
+        } has already exists, please set key attribute rename it`,
+      );
+    }
     const config = Object.assign({}, defaults, job.config);
     if (config.enable) {
       if (job.type === 'cron') {
@@ -52,6 +61,8 @@ export class Scheduler {
           job.instance.cancel();
           break;
         case 'interval':
+          clearInterval(job.timer);
+          break;
         case 'timeout':
           clearTimeout(job.timer);
           break;
@@ -76,17 +87,29 @@ export class Scheduler {
         rule: cron,
       },
       async () => {
+        const job = this.jobs.get(key);
+        if (configs.waiting && job.status !== READY) {
+          return false;
+        }
+        job.status = RUNNING;
+
         const executor = new Executor(
           configs,
           defaults.logger as LoggerService,
         );
+
+        job.status = READY;
         const needStop = await executor.execute(key, cb, tryLock);
         if (needStop) {
           this.cancelJob(key);
         }
       },
     );
+
     this.addJob(key, 'cron', config, { instance });
+    if (configs.immediate) {
+      this.runJobImmediately(key, configs, cb, tryLock);
+    }
   }
 
   public static scheduleIntervalJob(
@@ -98,13 +121,26 @@ export class Scheduler {
   ) {
     const configs = Object.assign({}, config, config);
     const timer = setInterval(async () => {
+      const job = this.jobs.get(key);
+      if (configs.waiting && job.status !== READY) {
+        return false;
+      }
+      job.status = RUNNING;
+
       const executor = new Executor(configs, defaults.logger as LoggerService);
       const needStop = await executor.execute(key, cb, tryLock);
+
+      job.status = READY;
+
       if (needStop) {
         this.cancelJob(key);
       }
     }, interval);
+
     this.addJob(key, 'interval', config, { timer });
+    if (configs.immediate) {
+      this.runJobImmediately(key, configs, cb, tryLock);
+    }
   }
 
   public static scheduleTimeoutJob(
@@ -116,13 +152,24 @@ export class Scheduler {
   ) {
     const configs = Object.assign({}, defaults, config);
     const timer = setTimeout(async () => {
-      const executor = new Executor(configs, defaults.logger as LoggerService);
-      const needStop = await executor.execute(key, cb, tryLock);
-      if (needStop) {
-        this.cancelJob(key);
+      const job = this.jobs.get(key);
+      if (configs.waiting && job.status !== READY) {
+        return false;
       }
+      job.status = RUNNING;
+
+      const executor = new Executor(configs, defaults.logger as LoggerService);
+      await executor.execute(key, cb, tryLock);
+
+      job.status = READY;
+
+      this.cancelJob(key);
     }, timeout);
+
     this.addJob(key, 'timeout', config, { timer });
+    if (configs.immediate) {
+      this.runJobImmediately(key, configs, cb, tryLock);
+    }
   }
 
   private static addJob(
@@ -137,6 +184,26 @@ export class Scheduler {
       key,
       timer: extra.timer,
       instance: extra.instance,
+      status: READY,
     });
+  }
+
+  private static async runJobImmediately(
+    key: string,
+    configs,
+    cb: JobCallback,
+    tryLock,
+  ) {
+    const job = this.jobs.get(key);
+    if (configs.waiting && job.status !== READY) {
+      return false;
+    }
+    job.status = RUNNING;
+    const executor = new Executor(configs, defaults.logger as LoggerService);
+    const needStop = await executor.execute(key, cb, tryLock);
+    job.status = READY;
+    if (needStop) {
+      this.cancelJob(key);
+    }
   }
 }

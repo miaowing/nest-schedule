@@ -9,4 +9,5 @@ export interface IJob {
   timer?: NodeJS.Timer;
   method?: () => Promise<Stop> | Stop;
   tryLock?: TryLock | Promise<TryLock>;
+  status: string;
 }
