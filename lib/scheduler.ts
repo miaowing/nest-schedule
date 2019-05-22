@@ -103,7 +103,7 @@ export class Scheduler {
         end: endTime,
         rule: cron,
       },
-      async () => {
+      async (...args: any[]) => {
         const job = this.jobs.get(key);
         if (configs.waiting && job.status !== READY) {
           return false;
@@ -116,7 +116,7 @@ export class Scheduler {
         );
 
         job.status = READY;
-        const needStop = await executor.execute(key, cb, tryLock);
+        const needStop = await executor.execute(key, cb, args, tryLock);
         if (needStop) {
           this.cancelJob(key);
         }

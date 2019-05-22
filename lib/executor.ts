@@ -13,7 +13,8 @@ export class Executor {
   async execute(
     jobKey: string,
     callback: () => Promise<Stop> | Stop,
-    tryLock: Promise<TryLock> | TryLock,
+    args: any[],
+    tryLock?: Promise<TryLock> | TryLock,
   ): Promise<Stop> {
     let release;
     if (typeof tryLock === 'function') {
@@ -32,7 +33,7 @@ export class Executor {
       }
     }
 
-    const result = await this.run(jobKey, callback);
+    const result = await this.run(jobKey, callback, args);
 
     try {
       typeof release === 'function' ? release() : void 0;
@@ -49,10 +50,11 @@ export class Executor {
 
   private async run(
     jobKey: string,
-    callback: () => Promise<Stop> | Stop,
+    callback: (...args: any[]) => Promise<Stop> | Stop,
+    args: any[],
   ): Promise<Stop> {
     try {
-      const result = await callback();
+      const result = await callback(...args);
       this.clear();
       return result;
     } catch (e) {
