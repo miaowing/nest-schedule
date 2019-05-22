@@ -24,8 +24,9 @@ export class Schedule {
     cron: string,
     callback: JobCallback,
     config?: ICronJobConfig,
+    tryLock?: Promise<TryLock> | TryLock,
   ) {
-    this.scheduler.scheduleCronJob(key, cron, callback, config);
+    this.scheduler.scheduleCronJob(key, cron, callback, config, tryLock);
   }
 
   public scheduleIntervalJob(
@@ -33,8 +34,15 @@ export class Schedule {
     interval: number,
     callback: JobCallback,
     config?: IJobConfig,
+    tryLock?: Promise<TryLock> | TryLock,
   ) {
-    this.scheduler.scheduleIntervalJob(key, interval, callback, config);
+    this.scheduler.scheduleIntervalJob(
+      key,
+      interval,
+      callback,
+      config,
+      tryLock,
+    );
   }
 
   public scheduleTimeoutJob(
@@ -42,7 +50,22 @@ export class Schedule {
     timeout: number,
     callback: JobCallback,
     config?: IJobConfig,
+    tryLock?: Promise<TryLock> | TryLock,
   ) {
-    this.scheduler.scheduleTimeoutJob(key, timeout, callback, config);
+    this.scheduler.scheduleTimeoutJob(key, timeout, callback, config, tryLock);
+  }
+
+  /**
+   * Get all registered jobs
+   */
+  public getJobIds() {
+    return this.scheduler.getJobIds();
+  }
+
+  /**
+   * Get jobs by ids
+   */
+  public getJobById(id: string) {
+    return this.scheduler.getJobById(id);
   }
 }
