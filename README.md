@@ -223,13 +223,13 @@ export class AppModule {
 
 Register schedule module.
 
-| field | type | required | description |
-| --- | --- | --- | --- |
-| config.enable | boolean | false | default is true, when false, the job will not execute |
-| config.maxRetry | number | false |  the max retry count, default is -1 not retry |
-| config.retryInterval | number | false | the retry interval, default is 5000 |
-| config.logger | LoggerService \| boolean | false | custom schedule logger, default is console |
-| config.waiting | boolean | false | the scheduler will not schedule job when this job is running, if waiting is true |
+| field                | type                     | required | description                                                                      |
+| -------------------- | ------------------------ | -------- | -------------------------------------------------------------------------------- |
+| config.enable        | boolean                  | false    | default is true, when false, the job will not execute                            |
+| config.maxRetry      | number                   | false    | the max retry count, default is -1 not retry                                     |
+| config.retryInterval | number                   | false    | the retry interval, default is 5000                                              |
+| config.logger        | LoggerService \| boolean | false    | custom schedule logger, default is console                                       |
+| config.waiting       | boolean                  | false    | the scheduler will not schedule job when this job is running, if waiting is true |
 
 ### class Schedule
 
@@ -237,51 +237,59 @@ Register schedule module.
 
 Schedule a cron job.
 
-| field | type | required | description |
-| --- | --- | --- | --- |
-| key | string | true | The unique job key |
-| cron | string | true | The cron expression |
-| callback | () => Promise&lt;boolean&gt; | boolean | If return true in callback function, the schedule will cancel this job immediately |
-| config.startTime | Date | false | The start time of this job |
-| config.endTime | Date | false | The end time of this job |
-| config.enable | boolean | false | default is true, when false, the job will not execute |
-| config.maxRetry | number | false |  the max retry count, default is -1 not retry |
-| config.retryInterval | number | false | the retry interval, default is 5000 |
-| config.waiting | boolean | false | the scheduler will not schedule job when this job is running, if waiting is true |
-| config.immediate | boolean | false | running job immediately |
+| field                | type                         | required | description                                                                        |
+| -------------------- | ---------------------------- | -------- | ---------------------------------------------------------------------------------- |
+| key                  | string                       | true     | The unique job key                                                                 |
+| cron                 | string                       | true     | The cron expression                                                                |
+| callback             | () => Promise&lt;boolean&gt; | boolean  | If return true in callback function, the schedule will cancel this job immediately |
+| config.startTime     | Date                         | false    | The start time of this job                                                         |
+| config.endTime       | Date                         | false    | The end time of this job                                                           |
+| config.enable        | boolean                      | false    | default is true, when false, the job will not execute                              |
+| config.maxRetry      | number                       | false    | the max retry count, default is -1 not retry                                       |
+| config.retryInterval | number                       | false    | the retry interval, default is 5000                                                |
+| config.waiting       | boolean                      | false    | the scheduler will not schedule job when this job is running, if waiting is true   |
+| config.immediate     | boolean                      | false    | running job immediately                                                            |
 
 #### scheduleIntervalJob(key: string, interval: number, callback: JobCallback, config?: IJobConfig)
 
 Schedule a interval job.
 
-| field | type | required | description |
-| --- | --- | --- | --- |
-| key | string | true | The unique job key |
-| interval | number | true | milliseconds |
-| callback | () => Promise&lt;boolean&gt; | boolean | If return true in callback function, the schedule will cancel this job immediately |
-| config.enable | boolean | false | default is true, when false, the job will not execute |
-| config.maxRetry | number | false |  the max retry count, default is -1 not retry |
-| config.retryInterval | number | false | the retry interval, default is 5000 |
-| config.waiting | boolean | false | the scheduler will not schedule job when this job is running, if waiting is true |
-| config.immediate | boolean | false | running job immediately |
+| field                | type                         | required | description                                                                        |
+| -------------------- | ---------------------------- | -------- | ---------------------------------------------------------------------------------- |
+| key                  | string                       | true     | The unique job key                                                                 |
+| interval             | number                       | true     | milliseconds                                                                       |
+| callback             | () => Promise&lt;boolean&gt; | boolean  | If return true in callback function, the schedule will cancel this job immediately |
+| config.enable        | boolean                      | false    | default is true, when false, the job will not execute                              |
+| config.maxRetry      | number                       | false    | the max retry count, default is -1 not retry                                       |
+| config.retryInterval | number                       | false    | the retry interval, default is 5000                                                |
+| config.waiting       | boolean                      | false    | the scheduler will not schedule job when this job is running, if waiting is true   |
+| config.immediate     | boolean                      | false    | running job immediately                                                            |
 
 #### scheduleTimeoutJob(key: string, timeout: number, callback: JobCallback, config?: IJobConfig)
 
 Schedule a timeout job.
 
-| field | type | required | description |
-| --- | --- | --- | --- |
-| key | string | true | The unique job key |
-| timeout | number | true | milliseconds |
-| callback | () => Promise&lt;boolean&gt; | boolean | If return true in callback function, the schedule will cancel this job immediately |
-| config.enable | boolean | false | default is true, when false, the job will not execute |
-| config.maxRetry | number | false |  the max retry count, default is -1 not retry |
-| config.retryInterval | number | false | the retry interval, default is 5000 |
-| config.immediate | boolean | false | running job immediately |
+| field                | type                         | required | description                                                                        |
+| -------------------- | ---------------------------- | -------- | ---------------------------------------------------------------------------------- |
+| key                  | string                       | true     | The unique job key                                                                 |
+| timeout              | number                       | true     | milliseconds                                                                       |
+| callback             | () => Promise&lt;boolean&gt; | boolean  | If return true in callback function, the schedule will cancel this job immediately |
+| config.enable        | boolean                      | false    | default is true, when false, the job will not execute                              |
+| config.maxRetry      | number                       | false    | the max retry count, default is -1 not retry                                       |
+| config.retryInterval | number                       | false    | the retry interval, default is 5000                                                |
+| config.immediate     | boolean                      | false    | running job immediately                                                            |
 
 #### cancelJob(key: string)
 
 Cancel job.
+
+#### getJobIds(): string[]
+
+Get list of all job ids
+
+#### getJobById(id: string):IJob
+
+Get job by id
 
 
 ## Decorators
@@ -290,44 +298,44 @@ Cancel job.
 
 Schedule a cron job.
 
-| field | type | required | description |
-| --- | --- | --- | --- |
-| expression | string | true | the cron expression |
-| config.key | string | false | The unique job key |
-| config.startTime | Date | false | the job's start time |
-| config.endTime | Date | false | the job's end time |
-| config.enable | boolean | false | default is true, when false, the job will not execute |
-| config.maxRetry | number | false |  the max retry count, default is -1 not retry |
-| config.retryInterval | number | false | the retry interval, default is 5000 |
-| config.waiting | boolean | false | the scheduler will not schedule job when this job is running, if waiting is true |
-| config.immediate | boolean | false | running job immediately |
+| field                | type    | required | description                                                                      |
+| -------------------- | ------- | -------- | -------------------------------------------------------------------------------- |
+| expression           | string  | true     | the cron expression                                                              |
+| config.key           | string  | false    | The unique job key                                                               |
+| config.startTime     | Date    | false    | the job's start time                                                             |
+| config.endTime       | Date    | false    | the job's end time                                                               |
+| config.enable        | boolean | false    | default is true, when false, the job will not execute                            |
+| config.maxRetry      | number  | false    | the max retry count, default is -1 not retry                                     |
+| config.retryInterval | number  | false    | the retry interval, default is 5000                                              |
+| config.waiting       | boolean | false    | the scheduler will not schedule job when this job is running, if waiting is true |
+| config.immediate     | boolean | false    | running job immediately                                                          |
 
 ### Interval(milliseconds: number, config?: IJobConfig): MethodDecorator
 
 Schedule a interval job.
 
-| field | type | required | description |
-| --- | --- | --- | --- |
-| milliseconds | number | true | milliseconds |
-| config.key | string | false | The unique job key |
-| config.enable | boolean | false | default is true, when false, the job will not execute |
-| config.maxRetry | number | false |  the max retry count, default is -1 not retry |
-| config.retryInterval | number | false | the retry interval, default is 5000 |
-| config.waiting | boolean | false | the scheduler will not schedule job when this job is running, if waiting is true |
-| config.immediate | boolean | false | running job immediately |
+| field                | type    | required | description                                                                      |
+| -------------------- | ------- | -------- | -------------------------------------------------------------------------------- |
+| milliseconds         | number  | true     | milliseconds                                                                     |
+| config.key           | string  | false    | The unique job key                                                               |
+| config.enable        | boolean | false    | default is true, when false, the job will not execute                            |
+| config.maxRetry      | number  | false    | the max retry count, default is -1 not retry                                     |
+| config.retryInterval | number  | false    | the retry interval, default is 5000                                              |
+| config.waiting       | boolean | false    | the scheduler will not schedule job when this job is running, if waiting is true |
+| config.immediate     | boolean | false    | running job immediately                                                          |
 
 ### Timeout(milliseconds: number, config?: IJobConfig): MethodDecorator
 
 Schedule a timeout job.
 
-| field | type | required | description |
-| --- | --- | --- | --- |
-| milliseconds | number | true | milliseconds |
-| config.key | string | false | The unique job key |
-| config.enable | boolean | false | default is true, when false, the job will not execute |
-| config.maxRetry | number | false |  the max retry count, default is -1 not retry |
-| config.retryInterval | number | false | the retry interval, default is 5000 |
-| config.immediate | boolean | false | running job immediately |
+| field                | type    | required | description                                           |
+| -------------------- | ------- | -------- | ----------------------------------------------------- |
+| milliseconds         | number  | true     | milliseconds                                          |
+| config.key           | string  | false    | The unique job key                                    |
+| config.enable        | boolean | false    | default is true, when false, the job will not execute |
+| config.maxRetry      | number  | false    | the max retry count, default is -1 not retry          |
+| config.retryInterval | number  | false    | the retry interval, default is 5000                   |
+| config.immediate     | boolean | false    | running job immediately                               |
 
 ### InjectSchedule(): PropertyDecorator
 

@@ -72,6 +72,21 @@ export class Scheduler {
     }
   }
 
+  private static parseDate(inp: any): Date {
+    const ret = new Date(inp);
+    if (Object.prototype.toString.call(ret) === '[object Date]') {
+      // it is a date
+      if (isNaN(ret.getTime())) {
+        // d.valueOf() could also work
+        return undefined;
+      } else {
+        return ret;
+      }
+    } else {
+      return undefined;
+    }
+  }
+
   public static scheduleCronJob(
     key: string,
     cron: string,
@@ -80,13 +95,15 @@ export class Scheduler {
     tryLock?: Promise<TryLock> | TryLock,
   ) {
     const configs = Object.assign({}, defaults, config);
+    const startTime = this.parseDate(config && config.startTime);
+    const endTime = this.parseDate(config && config.endTime);
     const instance = schedule.scheduleJob(
       {
-        start: config.startTime,
-        end: config.endTime,
+        start: startTime,
+        end: endTime,
         rule: cron,
       },
-      async () => {
+      async (...args: any[]) => {
         const job = this.jobs.get(key);
         if (configs.waiting && job.status !== READY) {
           return false;
@@ -99,7 +116,7 @@ export class Scheduler {
         );
 
         job.status = READY;
-        const needStop = await executor.execute(key, cb, tryLock);
+        const needStop = await executor.execute(key, cb, args, tryLock);
         if (needStop) {
           this.cancelJob(key);
         }
@@ -205,5 +222,19 @@ export class Scheduler {
     if (needStop) {
       this.cancelJob(key);
     }
+  }
+
+  /**
+   * Get all registered jobs
+   */
+  public static getJobIds() {
+    return [...this.jobs.keys()];
+  }
+
+  /**
+   * Get jobs by ids
+   */
+  public static getJobById(id: string) {
+    return this.jobs.has(id) ? this.jobs.get(id) : undefined;
   }
 }
