@@ -4,6 +4,7 @@ import { DistributedScheduleService } from './distributed-schedule.service';
 import { NestcloudSchedule } from './nestcloud.schedule';
 import { DynamicScheduleService } from './dynamic-schedule.service';
 import { ScheduleModule } from 'nest-schedule';
+import { DynamicCronService } from './dynamic-cron.service';
 
 @Module({
   imports: [ScheduleModule.register({})],
@@ -12,6 +13,7 @@ import { ScheduleModule } from 'nest-schedule';
     DistributedScheduleService,
     NestcloudSchedule,
     DynamicScheduleService,
+    DynamicCronService,
   ],
 })
 export class AppModule {}
