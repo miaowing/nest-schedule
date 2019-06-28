@@ -2,15 +2,22 @@
 # yarn lockfile v1
 
 
-"@nestcloud/common@^0.3.0-beta4":
-  version "0.3.0-beta4"
-  resolved "https://registry.yarnpkg.com/@nestcloud/common/-/common-0.3.0-beta4.tgz#3b1d22aa52b26c468b3e661bd600d041da9dac8b"
+"@nestcloud/common@^0.3.17":
+  version "0.3.17"
+  resolved "https://registry.yarnpkg.com/@nestcloud/common/-/common-0.3.17.tgz#73f78429aaed59b38979ec7e540299ce52dce818"
+  integrity sha512-rklzLHu/W5jQCxlYHqkoimWZpVLL2JKtC3YNS2DcTvvTr/1TA/9ToZsJuqkj+uvyCgI6cM0iqGcaVIhaF5qkBw==
   dependencies:
     lodash "^4.17.11"
 
-"@nestcloud/core@^0.2.1":
-  version "0.2.3"
-  resolved "https://registry.yarnpkg.com/@nestcloud/core/-/core-0.2.3.tgz#ca1b5126421691d33aac672a7215e5baa3d4b704"
+"@nestcloud/core@^0.2.3":
+  version "0.2.4"
+  resolved "https://registry.yarnpkg.com/@nestcloud/core/-/core-0.2.4.tgz#4848af409e0ea61df6ba263059e1cfe5900fab52"
+  integrity sha512-kDiAblUH4ZQnDzhZLp5oplUIjm+S/N+mVpCfZGj9QN9KDdTERW1gl/CW/aLVmdOIIvf/9cmigoqTMK/4k0uGNg==
+
+"@nestcloud/core@^0.3.17":
+  version "0.3.17"
+  resolved "https://registry.yarnpkg.com/@nestcloud/core/-/core-0.3.17.tgz#2372aebb1b2cff55c4e68a9feb168f42ec1bdc69"
+  integrity sha512-rZkbvrcV5Vst31aOzWJuHBGA0HMtsmD5QMJGbK5LO7NMnM/tdpKwt01h57qQnfhOWWG0wobrfy+KZyNYsI/hgg==
 
 "@nestjs/common@^6.0.4":
   version "6.1.1"
@@ -630,12 +637,15 @@ negotiator@0.6.1:
   version "0.6.1"
   resolved "https://registry.yarnpkg.com/negotiator/-/negotiator-0.6.1.tgz#2b327184e8992101177b28563fb5e7102acd0ca9"
 
-nest-schedule@^0.4.6:
-  version "0.4.6"
-  resolved "https://registry.yarnpkg.com/nest-schedule/-/nest-schedule-0.4.6.tgz#81cf5f6e9bb9efc9a49f2e1376027a2eee14f92c"
+nest-schedule@^0.6.2:
+  version "0.6.2"
+  resolved "https://registry.yarnpkg.com/nest-schedule/-/nest-schedule-0.6.2.tgz#c992a6db10affc2bab91e1e805ca38dd8b9ad385"
+  integrity sha512-9R8+M6ZB2/pkhxq3GOwpj/MAGGDQGPJ1ZUq5kT8AeFicKKDf/8+I9T6DgDtwzYUlzvCzz+j+TzHZ/UlFdP/UiQ==
   dependencies:
     node-schedule "^1.3.0"
     reflect-metadata "^0.1.12"
+  optionalDependencies:
+    "@nestcloud/core" "^0.2.3"
 
 next-tick@1, next-tick@^1.0.0:
   version "1.0.0"

@@ -21,7 +21,7 @@ export class Executor {
           return false;
         }
       } catch (e) {
-        this.logger.error(`Try lock job ${jobKey} fail.`, e);
+        this.logger.error(`Try lock job ${jobKey} fail. ${e.message}`, e.stack);
         return false;
       }
     }
@@ -31,7 +31,7 @@ export class Executor {
     try {
       typeof release === 'function' ? release() : void 0;
     } catch (e) {
-      this.logger.error(`Release lock job ${jobKey} fail.`, e);
+      this.logger.error(`Release lock job ${jobKey} fail.`, e.stack);
     }
 
     return result;
@@ -46,7 +46,7 @@ export class Executor {
       this.clear();
       return result;
     } catch (e) {
-      this.logger.error(`Execute job ${jobKey} fail.`, e);
+      this.logger.error(`Execute job ${jobKey} fail.`, e.stack);
       if (
         this.configs.maxRetry !== -1 &&
         this.currentRetryCount < this.configs.maxRetry
@@ -63,7 +63,10 @@ export class Executor {
         });
         return false;
       } else {
-        this.logger.error(`Job ${jobKey} already has max retry count.`, e);
+        this.logger.error(
+          `Job ${jobKey} already has max retry count.`,
+          e.stack,
+        );
         return false;
       }
     }
