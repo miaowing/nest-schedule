@@ -1,6 +1,5 @@
 import * as schedule from 'node-schedule';
 import { Executor } from './executor';
-import { LoggerService } from '@nestjs/common';
 import { defaults } from './defaults';
 import { ICronJobConfig } from './interfaces/cron-job-config.interface';
 import { IJobConfig } from './interfaces/job-config.interface';
@@ -16,7 +15,9 @@ export class Scheduler {
   public static queueJob(job: IJob) {
     if (this.jobs.has(job.key)) {
       throw new JobRepeatException(
-        `The job ${job.key} has already exists, please set key attribute rename it`,
+        `The job ${
+          job.key
+        } has already exists, please set key attribute rename it`,
       );
     }
     const config = Object.assign({}, defaults, job.config);
@@ -93,10 +94,7 @@ export class Scheduler {
         }
         job.status = RUNNING;
 
-        const executor = new Executor(
-          configs,
-          defaults.logger as LoggerService,
-        );
+        const executor = new Executor(configs);
 
         job.status = READY;
         const needStop = await executor.execute(key, cb, tryLock);
@@ -127,7 +125,7 @@ export class Scheduler {
       }
       job.status = RUNNING;
 
-      const executor = new Executor(configs, defaults.logger as LoggerService);
+      const executor = new Executor(configs);
       const needStop = await executor.execute(key, cb, tryLock);
 
       job.status = READY;
@@ -158,7 +156,7 @@ export class Scheduler {
       }
       job.status = RUNNING;
 
-      const executor = new Executor(configs, defaults.logger as LoggerService);
+      const executor = new Executor(configs);
       await executor.execute(key, cb, tryLock);
 
       job.status = READY;
@@ -199,7 +197,7 @@ export class Scheduler {
       return false;
     }
     job.status = RUNNING;
-    const executor = new Executor(configs, defaults.logger as LoggerService);
+    const executor = new Executor(configs);
     const needStop = await executor.execute(key, cb, tryLock);
     job.status = READY;
     if (needStop) {
