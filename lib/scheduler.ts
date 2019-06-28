@@ -16,9 +16,7 @@ export class Scheduler {
   public static queueJob(job: IJob) {
     if (this.jobs.has(job.key)) {
       throw new JobRepeatException(
-        `The job ${
-          job.key
-        } has already exists, please set key attribute rename it`,
+        `The job ${job.key} has already exists, please set key attribute rename it`,
       );
     }
     const config = Object.assign({}, defaults, job.config);
@@ -82,8 +80,10 @@ export class Scheduler {
     const configs = Object.assign({}, defaults, config);
     const instance = schedule.scheduleJob(
       {
-        start: config.startTime,
-        end: config.endTime,
+        // BUG: Triggered undefined when the params were optional
+        start: config ? config.startTime : null,
+        // BUG: Triggered undefined when the params were optional
+        end: config ? config.endTime : null,
         rule: cron,
       },
       async () => {
