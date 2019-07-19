@@ -13,13 +13,6 @@ export class Scheduler {
   private static readonly jobs = new Map<string, IJob>();
 
   public static queueJob(job: IJob) {
-    if (this.jobs.has(job.key)) {
-      throw new JobRepeatException(
-        `The job ${
-          job.key
-        } has already exists, please set key attribute rename it`,
-      );
-    }
     const config = Object.assign({}, defaults, job.config);
     if (config.enable) {
       if (job.type === 'cron') {
@@ -78,6 +71,7 @@ export class Scheduler {
     config?: ICronJobConfig,
     tryLock?: Promise<TryLock> | TryLock,
   ) {
+    this.assertJobNotExist(key);
     const configs = Object.assign({}, defaults, config);
     const instance = schedule.scheduleJob(
       {
@@ -117,6 +111,7 @@ export class Scheduler {
     config?: IJobConfig,
     tryLock?: Promise<TryLock> | TryLock,
   ) {
+    this.assertJobNotExist(key);
     const configs = Object.assign({}, config, config);
     const timer = setInterval(async () => {
       const job = this.jobs.get(key);
@@ -148,6 +143,7 @@ export class Scheduler {
     config?: IJobConfig,
     tryLock?: Promise<TryLock> | TryLock,
   ) {
+    this.assertJobNotExist(key);
     const configs = Object.assign({}, defaults, config);
     const timer = setTimeout(async () => {
       const job = this.jobs.get(key);
@@ -202,6 +198,12 @@ export class Scheduler {
     job.status = READY;
     if (needStop) {
       this.cancelJob(key);
+    }
+  }
+
+  private static assertJobNotExist(key: string) {
+    if (this.jobs.has(key)) {
+      throw new JobRepeatException(`The job ${key} is exists.`);
     }
   }
 }
