@@ -1,7 +1,10 @@
 import * as schedule from 'node-schedule';
 import { Executor } from './executor';
 import { defaults } from './defaults';
-import { ICronJobConfig } from './interfaces/cron-job-config.interface';
+import {
+  ICronJobConfig,
+  ICronObject,
+} from './interfaces/cron-job-config.interface';
 import { IJobConfig } from './interfaces/job-config.interface';
 import { IJob } from './interfaces/job.interface';
 import { Job } from 'node-schedule';
@@ -72,37 +75,41 @@ export class Scheduler {
 
   public static scheduleCronJob(
     key: string,
-    cron: string,
+    cron: string | ICronObject,
     cb: JobCallback,
     config?: ICronJobConfig,
     tryLock?: Promise<TryLock> | TryLock,
   ) {
     this.assertJobNotExist(key);
     const configs = Object.assign({}, defaults, config);
-    const instance = schedule.scheduleJob(
-      {
+    let cronJob;
+    if (typeof cron === 'object') {
+      cronJob = { ...cron };
+    } else {
+      cronJob = {
         // BUG: Triggered undefined when the params were optional
         start: config ? config.startTime : null,
         // BUG: Triggered undefined when the params were optional
         end: config ? config.endTime : null,
-        rule: cron,
-      },
-      async () => {
-        const job = this.jobs.get(key);
-        if (configs.waiting && job.status !== READY) {
-          return false;
-        }
-        job.status = RUNNING;
+        rule: cron as string,
+      };
+    }
 
-        const executor = new Executor(configs);
+    const instance = schedule.scheduleJob(cronJob, async () => {
+      const job = this.jobs.get(key);
+      if (configs.waiting && job.status !== READY) {
+        return false;
+      }
+      job.status = RUNNING;
 
-        job.status = READY;
-        const needStop = await executor.execute(key, cb, tryLock);
-        if (needStop) {
-          this.cancelJob(key);
-        }
-      },
-    );
+      const executor = new Executor(configs);
+
+      job.status = READY;
+      const needStop = await executor.execute(key, cb, tryLock);
+      if (needStop) {
+        this.cancelJob(key);
+      }
+    });
 
     this.addJob(key, 'cron', config, { instance });
     if (configs.immediate) {
