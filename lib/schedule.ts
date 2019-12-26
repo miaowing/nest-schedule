@@ -19,6 +19,10 @@ export class Schedule {
     this.scheduler.cancelJob(key);
   }
 
+  public cancelJobs() {
+    this.scheduler.cancelJobs();
+  }
+
   public scheduleCronJob(
     key: string,
     cron: string,

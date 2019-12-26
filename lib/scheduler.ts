@@ -64,6 +64,12 @@ export class Scheduler {
     }
   }
 
+  public static cancelJobs() {
+    for (let key of this.jobs.keys()) {
+      this.cancelJob(key);
+    }
+  }
+
   public static scheduleCronJob(
     key: string,
     cron: string,
