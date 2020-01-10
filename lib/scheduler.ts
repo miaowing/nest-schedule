@@ -103,9 +103,10 @@ export class Scheduler {
       job.status = RUNNING;
 
       const executor = new Executor(configs);
+      const needStop = await executor.execute(key, cb, tryLock);
 
       job.status = READY;
-      const needStop = await executor.execute(key, cb, tryLock);
+      
       if (needStop) {
         this.cancelJob(key);
       }
