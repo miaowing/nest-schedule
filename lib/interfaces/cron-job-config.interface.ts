@@ -14,5 +14,5 @@ export interface ICronObject {
   year?: number;
   dayOfWeek?: number;
   tz?: string;
-  rule: string;
+  rule?: string;
 }
