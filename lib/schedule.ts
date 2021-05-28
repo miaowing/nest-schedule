@@ -1,4 +1,7 @@
-import { ICronJobConfig } from './interfaces/cron-job-config.interface';
+import {
+  ICronJobConfig,
+  ICronObject,
+} from './interfaces/cron-job-config.interface';
 import { IJobConfig } from './interfaces/job-config.interface';
 import { Scheduler } from './scheduler';
 import { IGlobalConfig } from './interfaces/global-config.interface';
@@ -25,7 +28,7 @@ export class Schedule {
 
   public scheduleCronJob(
     key: string,
-    cron: string,
+    cron: string | ICronObject,
     callback: JobCallback,
     config?: ICronJobConfig,
   ) {
